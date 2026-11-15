@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prekmoi"
+version = "0.1.0"
+description = "A pre-commit hook to validate Chezmoi-generated Zsh scripts and standalone Zsh scripts."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "BALDOeFIERO" },
+]
+keywords = [
+    "chezmoi",
+    "prek",
+    "pre-commit",
+    "zsh",
+    "dotfiles",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: System :: Systems Administration",
+]
+
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/baldoefiero/prekmoi"
+Repository = "https://github.com/baldoefiero/prekmoi"
+Issues = "https://github.com/baldoefiero/prekmoi/issues"
+
+[project.scripts]
+prekmoi = "prekmoi.hook:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0,<10",
+    "pytest-mock>=3.17,<4",
+    "pytest-cov>=7.0,<8",
+    "pylint>=3.3,<5",
+]
+docs = [
+    "mkdocs-material>=9.6,<10",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["prekmoi*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+strict_config = true
+strict_markers = true
+addopts = [
+    "-ra",
+    "--cov",
+    "--cov-report=term-missing",
+]
+
+[tool.pylint.main]
+py-version = "3.11"
+source-roots = ["src", "tests"]
+ignore-paths = ["tests/fixtures/.*"]
+
+[tool.coverage.run]
+branch = true
+source = ["prekmoi"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true

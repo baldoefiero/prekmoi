@@ -1,0 +1,17 @@
+---
+site_name: prekmoi
+site_description: |-
+  A pre-commit hook to validate Chezmoi-generated Zsh scripts and standalone
+  Zsh scripts.
+site_url: https://baldoefiero.github.io/prekmoi/
+
+repo_name: baldoefiero/prekmoi
+repo_url: https://github.com/baldoefiero/prekmoi
+
+theme:
+  name: readthedocs
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md

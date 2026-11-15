@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.egg-info
+dist/
+
+# Virtual environments
+.venv
+
+# Testing
+.pytest-cache
+.coverage
+
+# Type checking
+
+# IDE
+.vscode
+.todo
+
+# OS
+.DS_Store
+
+# Documentation
+/site/

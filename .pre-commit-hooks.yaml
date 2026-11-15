@@ -1,0 +1,9 @@
+---
+- id: prekmoi
+  name: Validate Chezmoi Zsh templates
+  description: |-
+    Validate the syntax of Zsh scripts generated from Chezmoi templates.
+  entry: prekmoi
+  language: python
+  types: [file]
+  files: \.tmpl$
