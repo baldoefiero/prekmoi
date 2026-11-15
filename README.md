@@ -1,5 +1,12 @@
 # prekmoi
 
+[![CI - Quality](https://github.com/baldoefiero/prekmoi/actions/workflows/quality.yml/badge.svg)](https://github.com/baldoefiero/prekmoi/actions/workflows/quality.yml)
+[![CI - Docs](https://github.com/baldoefiero/prekmoi/actions/workflows/docs.yml/badge.svg)](https://github.com/baldoefiero/prekmoi/actions/workflows/docs.yml)
+[![CI - Publish](https://github.com/baldoefiero/prekmoi/actions/workflows/publish.yml/badge.svg)](https://github.com/baldoefiero/prekmoi/actions/workflows/publish.yml)
+[![PyPI](https://img.shields.io/pypi/v/prekmoi)](https://pypi.org/project/prekmoi/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-online-blue.svg)](https://baldoefiero.github.io/prekmoi/)
+
 **prekmoi** is a [prek](https://prek.j178.dev/) hook that validates the Zsh syntax in
 [Chezmoi](https://chezmoi.io) templates and standalone Zsh scripts.
 
