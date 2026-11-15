@@ -2,7 +2,7 @@
 
 This is the changelog of `prekmoi`.
 
-## Unreleased
+## v0.1.0 - 2026-11-15
 
 ### Added
 
