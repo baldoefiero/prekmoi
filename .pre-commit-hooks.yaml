@@ -6,8 +6,4 @@
   entry: prekmoi
   language: python
   types: [file]
-  files: >-
-    '(^|/)
-    (dot_zshrc|dot_zshenv|dot_zprofile|dot_zlogin|dot_zlogout|run_).*
-    |\.sh$
-    |\.zsh$'
+  files: '(^|/)(dot_zshrc|dot_zshenv|dot_zprofile|dot_zlogin|dot_zlogout|run_).*|\.sh$|\.zsh$'  # yamllint disable rule:line-length
