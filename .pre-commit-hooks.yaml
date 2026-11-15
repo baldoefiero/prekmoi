@@ -6,4 +6,8 @@
   entry: prekmoi
   language: python
   types: [file]
-  files: \.tmpl$
+  files: >-
+    '(^|/)
+    (dot_zshrc|dot_zshenv|dot_zprofile|dot_zlogin|dot_zlogout|run_).*
+    |\.sh$
+    |\.zsh$'

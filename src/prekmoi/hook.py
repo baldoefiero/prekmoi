@@ -5,64 +5,10 @@ import sys
 from pathlib import Path
 
 
-SUPPORTED_PREFIX = (
-    "dot_zshrc",
-    "dot_zshenv",
-    "dot_zprofile",
-    "dot_zlogin",
-    "dot_zlogout",
-    "run_"
-)
 TEMPLATE_SUFFIX = ".tmpl"
 CHEZMOI_COMMAND_RENDER = ["chezmoi", "execute-template"]
 ZSH_SYNTAX_CHECK = ["zsh", "-n"]
 
-
-def _has_supported_prefix(file_name: str) -> bool:
-    """Check if `file_name` starts with a supported `chezmoi` prefix.
-
-    Args
-    ----
-        file_name (str): file name (without directories) to check.
-
-    Returns
-    -------
-        bool
-            True if `file_name` starts with on of `SUPPORTED_PREFIX`; otherwise False."""
-    return file_name.startswith(SUPPORTED_PREFIX)
-
-def is_template(path: str) -> bool:
-    """Check if the file name in `path` is a `chezmoi` template to be rendered before
-    validating syntax.
-
-    Args
-    ----
-        path (str): path of the file to check.
-
-    Returns
-    -------
-        bool
-            True if `path` file name is a template to render; otherwise False.
-    """
-    name = Path(path).name
-    return name.endswith(TEMPLATE_SUFFIX) and _has_supported_prefix(name)
-
-def is_script(path: str) -> bool:
-    """Check if the file name in `path` is a shell script to validate syntax.
-
-    Args
-    ----
-        path (str): path of the file to check.
-
-    Returns
-    -------
-        bool
-            True if `path` file name is a shell script; otherwise False.
-    """
-    name = Path(path).name
-    return not name.endswith(TEMPLATE_SUFFIX) and (
-        _has_supported_prefix(name) or name.endswith((".sh", ".zsh"))
-    )
 
 def validate_zsh_syntax(path: str) -> bool:
     """Check if file name in `path` has a valid `zsh` syntax.
@@ -80,7 +26,7 @@ def validate_zsh_syntax(path: str) -> bool:
             True if `path` file name has a valid `zsh` syntax; otherwise False.
     """
     with Path(path).open("rb") as file:
-        if is_template(path):
+        if Path(path).suffix == TEMPLATE_SUFFIX:
             rendered = subprocess.run(
                 CHEZMOI_COMMAND_RENDER, stdin=file, capture_output=True, check=False
             ) # nosec B603: arguments are passed without a shell.
@@ -108,8 +54,6 @@ def main() -> int:
     """
     failed = False
     for p in sys.argv[1:]:
-        if not is_template(p) and not is_script(p):
-            continue
         if validate_zsh_syntax(p):
             print(f"PASS: {p}")
         else:

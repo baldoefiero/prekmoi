@@ -8,7 +8,7 @@ import subprocess
 from subprocess import CompletedProcess
 from typing import TYPE_CHECKING, Protocol, cast
 import pytest
-from prekmoi.hook import is_script, is_template, main, validate_zsh_syntax
+from prekmoi.hook import main, validate_zsh_syntax
 
 
 if TYPE_CHECKING:
@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     from pytest_mock import MockerFixture
 
 
-CHEZMOI_DIR = "/home/user/.local/share/chezmoi"
 VALID_ZSH = "echo hello\n"
 INVALID_ZSH = "if true; then\n  echo hello\n"  # missing `fi`
 
@@ -33,27 +32,12 @@ requires_zsh = pytest.mark.skipif(
     shutil.which("zsh") is None, reason="zsh is not installed"
 )
 
-# (file name, is_template, is_script)
-CLASSIFICATION = [
-    pytest.param("run_onchange_after_x.tmpl", True, False, id="run-template"),
-    pytest.param("run_onchange_after_x.sh.tmpl", True, False, id="run-sh-template"),
-    pytest.param("dot_zshrc.tmpl", True, False, id="zshrc-template"),
-    pytest.param("dot_zprofile.tmpl", True, False, id="zprofile-template"),
-    pytest.param("dot_zshrc", False, True, id="zshrc"),
-    pytest.param("dot_zprofile", False, True, id="zprofile"),
-    pytest.param("run_once_install", False, True, id="run-no-extension"),
-    pytest.param("run_onchange_after_x.sh", False, True, id="run-sh"),
-    pytest.param("install.sh", False, True, id="sh"),
-    pytest.param("aliases.zsh", False, True, id="zsh"),
-    pytest.param("dot_zshrc_tmpl", False, True, id="suffix-without-dot"),
-    pytest.param("README.md", False, False, id="unrelated"),
-    pytest.param("dot_gitconfig.tmpl", False, False, id="unsupported-template"),
-]
 
 VALIDITY = [
     pytest.param(VALID_ZSH, True, id="valid"),
     pytest.param(INVALID_ZSH, False, id="invalid"),
 ]
+
 
 @pytest.fixture(name="fake_chezmoi")
 def fake_chezmoi_fixture(mocker: MockerFixture) -> FakeChezmoi:
@@ -67,15 +51,6 @@ def fake_chezmoi_fixture(mocker: MockerFixture) -> FakeChezmoi:
             return real_run(command, **kwargs) # pylint: disable=subprocess-run-check
         mocker.patch("prekmoi.hook.subprocess.run", side_effect=run)
     return install
-
-
-@pytest.mark.parametrize(("name", "template", "script"), CLASSIFICATION)
-def test_classification(name: str, template: bool, script: bool) -> None:
-    """Test that a file name is classified as template, script or neither."""
-    path = f"{CHEZMOI_DIR}/{name}"
-
-    assert is_template(path) is template
-    assert is_script(path) is script
 
 
 @requires_zsh
@@ -123,15 +98,13 @@ def test_main_reports_pass_and_fail(
     """Test that `main` reports each validated file and skips unsupported ones."""
     good = make_file("dot_zshrc", VALID_ZSH)
     bad = make_file("dot_zprofile", INVALID_ZSH)
-    ignored = make_file("README.md", "not shell")
-    mocker.patch("sys.argv", ["prekmoi", str(good), str(bad), str(ignored)])
+    mocker.patch("sys.argv", ["prekmoi", str(good), str(bad)])
 
     assert main() == 1
 
     out = capsys.readouterr().out
     assert f"PASS: {good}" in out
     assert f"FAIL: {bad}" in out
-    assert str(ignored) not in out
 
 
 @requires_zsh
