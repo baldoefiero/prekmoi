@@ -1,8 +1,8 @@
 ---
 - id: prekmoi
-  name: Validate Chezmoi Zsh templates
+  name: Validate Zsh syntax
   description: |-
-    Validate the syntax of Zsh scripts generated from Chezmoi templates.
+    Validate Zsh syntax in Chezmoi templates and standalone Zsh scripts.
   entry: prekmoi
   language: python
   types: [file]

@@ -1,10 +1,10 @@
 # prekmoi
 
-**prekmoi** is a [prek](https://prek.j178.dev/) hook that validates the Zsh syntax of rendered
-[Chezmoi](https://chezmoi.io) templates.
+**prekmoi** is a [prek](https://prek.j178.dev/) hook that validates the Zsh syntax in
+[Chezmoi](https://chezmoi.io) templates and standalone Zsh scripts.
 
-It automatically identifies supported files, renders Chezmoi templates when necessary, and checks
-their Zsh syntax without executing them.
+It automatically selects supported files, renders Chezmoi templates when necessary, and checks the
+resulting Zsh syntax without executing the scripts.
 
 **Contents**
 
@@ -21,15 +21,15 @@ their Zsh syntax without executing them.
 - Validates standalone Zsh scripts without rendering.
 - Uses `chezmoi execute-template` for template rendering.
 - Uses `zsh -n` for syntax validation.
-- Skips unsupported files automatically.
+- Skips unsupported files automatically through `prek`.
 - Does not execute validated scripts.
 
 ## Requirements
 
 - Python 3.11+
-- [zsh](https://www.zsh.org/) 5.9+
-- [Chezmoi](https://chezmoi.io) 2.74.0+
-- [prek](https://prek.j178.dev/) 0.5.10+
+- [zsh](https://www.zsh.org/)
+- [Chezmoi](https://chezmoi.io)
+- [prek](https://prek.j178.dev/)
 
 ## Installation
 
@@ -45,26 +45,25 @@ repos:
 
 ## How It Works
 
-prekmoi identifies files based on their names and validates supported files through one of two
-paths:
+prekmoi uses `prek` to select files based on their paths and names.
 
 **Chezmoi templates**
 
-Files with a supported prefix and a `.tmpl` suffix are rendered using `chezmoi execute-template`.
+Files matching a supported prefix and ending in `.tmpl` are rendered using
+`chezmoi execute-template`.
+
 The rendered output is then passed to `zsh -n` for syntax validation.
 
 If rendering fails, the file is considered invalid and syntax validation is skipped.
 
 **Zsh scripts**
 
-Files with a supported prefix or a `.sh` or `.zsh` suffix are passed directly to `zsh -n` without
+Files selected by `prek` that do not end in `.tmpl` are passed directly to `zsh -n` without
 template rendering.
 
-Files that do not match either category are skipped.
-
-Syntax validation is performed without executing the scripts.
-
 **Supported prefixes**
+
+The following filename prefixes are supported:
 
 | Prefix       |
 | :---         |
@@ -75,6 +74,8 @@ Syntax validation is performed without executing the scripts.
 | dot_zlogout  |
 | run_         |
 
+Files that do not match the selection rules are ignored by `prek`.
+
 ## Bug Reports
 
 Found a bug or something not working as expected?
@@ -84,7 +85,7 @@ Please [open an issue](https://github.com/baldoefiero/prekmoi/issues) and includ
 - A description of the problem
 - Steps to reproduce it
 - Relevant error messages or output
-- You Operating System, Python version, Zsh version, Chezmoi version and prek version.
+- You operating system and the versions of Python, Zsh, Chezmoi and prek.
 
 ## License
 

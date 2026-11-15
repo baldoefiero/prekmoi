@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "prekmoi"
 version = "0.1.0"
-description = "A pre-commit hook to validate Chezmoi-generated Zsh scripts and standalone Zsh scripts."
+description = "A pre-commit hook to validate Zsh syntax in Chezmoi templates and standalone Zsh scripts."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
