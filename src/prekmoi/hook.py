@@ -1,9 +1,8 @@
 """Pre-commit hook for validating Chezmoi Zsh templates or Zsh scripts."""
 
-import subprocess # nosec B404: required to execute chezmoi and zsh.
+import subprocess  # nosec B404: required to execute chezmoi and zsh.
 import sys
 from pathlib import Path
-
 
 TEMPLATE_SUFFIX = ".tmpl"
 CHEZMOI_COMMAND_RENDER = ["chezmoi", "execute-template"]

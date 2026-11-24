@@ -1,20 +1,23 @@
 """Tests for the prekmoi hook."""
 
 from __future__ import annotations
-import shutil
+
 import runpy
-import sys
+import shutil
 import subprocess
+import sys
 from subprocess import CompletedProcess
 from typing import TYPE_CHECKING, Protocol, cast
-import pytest
-from prekmoi.hook import main, validate_zsh_syntax
 
+import pytest
+
+from prekmoi.hook import main, validate_zsh_syntax
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from pathlib import Path
     from typing import Any
+
     from pytest_mock import MockerFixture
 
 
