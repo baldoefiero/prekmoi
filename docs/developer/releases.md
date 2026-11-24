@@ -1,9 +1,10 @@
 # Release Process
 
-This document describes the manual process for preparing and publishing a new **prekmoi** release.
+This document describes the manual process for preparing and publishing a new
+**prekmoi** release.
 
-Releases follow [Semantic Versioning](https://semver.org/) and are published through GitHub
-Releases.
+Releases follow [Semantic Versioning](https://semver.org/) and are published
+through GitHub Releases.
 
 ## Version Management
 
@@ -18,7 +19,8 @@ Both declarations must always contain the same version.
 
 The project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-During development, changes are collected under the `Unreleased` section in `CHANGELOG.md`.
+During development, changes are collected under the `Unreleased` section in
+`CHANGELOG.md`.
 
 When preparing a release:
 
@@ -51,7 +53,7 @@ Update `CHANGELOG.md`:
 
 Run the project's quality checks locally:
 
-```
+```bash
 git add . --all
 prek run --all-files
 ```
@@ -62,7 +64,7 @@ The command executes the configured hooks, including tests and static analysis.
 
 Build the source distribution and wheel:
 
-```
+```bash
 python -m build
 ```
 
@@ -74,7 +76,7 @@ Commit the version and changelog updates to `main`.
 
 For example:
 
-```
+```bash
 git add . --all
 git commit -m "Release vX.Y.Z"
 git push origin main
@@ -86,7 +88,7 @@ Wait for the GitHub Actions workflows to complete successfully.
 
 Create an annotated tag using the `vX.Y.Z` format:
 
-```
+```bash
 git tag -a vX.Y.Z -m "Release vX.Y.Z"
 git push origin vX.Y.Z
 ```
@@ -101,10 +103,12 @@ On GitHub:
 2. Select **Draft a new release**.
 3. Select the tag created in the previous step.
 4. Set the release title to `vX.Y.Z`.
-5. Copy the corresponding changes from `CHANGELOG.md` into the release description.
+5. Copy the corresponding changes from `CHANGELOG.md` into the release
+   description.
 6. Publish the release.
 
-Do not generate release notes automatically: use the project's changelog as the source of truth.
+Do not generate release notes automatically: use the project's changelog as the
+source of truth.
 
 ### 8. Verify the release
 
@@ -119,4 +123,5 @@ After publication, verify that:
 
 Publishing a GitHub Release does not automatically publish the package to PyPI.
 
-PyPI publication is a separate process and is not currently part of the release procedure.
+PyPI publication is a separate process and is not currently part of the release
+procedure.

@@ -1,37 +1,74 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
     hooks:
-      - id: check-merge-conflict
       - id: check-toml
+        name: Check .toml files
       - id: check-case-conflict
+        name: Check file name case conflicts
       - id: check-added-large-files
+        name: Check large files in repository
       - id: end-of-file-fixer
+        name: Check end of file line presence (or adding it)
       - id: trailing-whitespace
+        name: Trim end of lines
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
+    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530  # frozen: 1.38.0
     hooks:
       - id: yamllint
+        name: Check YAML code style
         args: [--strict]
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.30.1
+    rev: 83d9cd684c87d95d656c1458ef04895a7f1cbd8e  # frozen: v8.30.1
     hooks:
       - id: gitleaks
+        name: Check secrets/passwords in code
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.9.4
+    rev: 92ae8b82fb422a639f0ed8d99e96cea769594e08  # frozen: v1.9.4
     hooks:
       - id: bandit
+        name: Check Python known security issues
         language_version: python3.11
         exclude: ^tests/
 
   - repo: https://github.com/pypa/pip-audit
-    rev: v2.10.1
+    rev: 8894eb8cee033531a1fbd9f2fb160892531c14e3  # frozen: v2.10.1
     hooks:
       - id: pip-audit
+        name: Check PyPI packages
+
+  - repo: https://github.com/thlorenz/doctoc.git
+    rev: 59dcae910a6ad4bbe8711275b854e3cd5c30f08b  # frozen: v2.5.0
+    hooks:
+      - id: doctoc
+        name: Add TOC for Markdown and RST files
+        files:
+          ^README\.md$
+        args:
+          - "--maxlevel"
+          - "2"
+          - "--toc-header-content"
+          - "**Table of contents**"
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: d4df4cec471ce155946474590d7b95920f623ccb  # frozen: v0.24.2
+    hooks:
+      - id: markdownlint-cli2
+        name: Check Markdown code style
+
+  - repo: https://github.com/woodruffw/zizmor-pre-commit
+    rev: c7d31dc612dffdd4d3b2f2b88b9660d3ab057ee8  # frozen: v1.33.1
+    hooks:
+      - id: zizmor
+        name: Check for Github workflow syntax errors
+        types: [yaml]
+        files: ^\.github/workflows/.*$|^\.github/actions/.*$
+        require_serial: true
+        entry: zizmor
 
   - repo: local
     hooks:
